@@ -1,0 +1,32 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# Ignore environment and configuration
+.env
+.env.local
+
+# Ignore vendor folder (Composer dependencies)
+/vendor/
+
+# Ignore node_modules if you're using any frontend tooling
+/node_modules/
+
+# Ignore IDE and OS-specific folders
+.vscode/
+.idea/
+*.swp
+
+# Ignore cache and session files
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+
+# Ignore XAMPP-specific config or temporary files
+/xamppfiles/
