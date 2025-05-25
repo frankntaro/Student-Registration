@@ -1,46 +1,58 @@
 <?php
-session_start();
-include 'db.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = md5($_POST['password']); // Not recommended for production, use password_hash()
-
-    // Fetch account by username and password
-    $stmt = $conn->prepare("SELECT id, role FROM accounts WHERE username=? AND password_hash=?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $res = $stmt->get_result();
-
-    if ($res->num_rows > 0) {
-        $user = $res->fetch_assoc();
-        $_SESSION['username'] = $username;
-        $_SESSION['user_id'] = $user['id'];   // ✅ Store user_id for profile linking
-        $_SESSION['role'] = $user['role'];
-
-        header("Location: dashboard.php");
-        exit();
-    } else {
-        $error = "Invalid credentials";
-    }
-}
+$password = 'Ntaro@must';
+$hash = password_hash($password, PASSWORD_DEFAULT);
+echo "Hashed Password: " . $hash;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MUST Login</title>
+    <title>Welcome to MUST Portal</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 12px rgba(0,0,0,0.2);
+        }
+        .box h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .box a {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 20px;
+            width: 200px;
+            background-color: #0077cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .box a.admin {
+            background-color: #d63333;
+        }
+        .box a:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>Login</h2>
-    <form method="post">
-        Username: <input type="text" name="username" required><br>
-        Password: <input type="password" name="password" required><br>
-        <button type="submit">Login</button>
-        <?php if(isset($error)) echo "<p class='error'>$error</p>"; ?>
-    </form>
-    <p>Don't have an account? <a href="create_account.php">Register here</a></p>
+<div class="box">
+    <h2>Welcome to MUST Registration Portal</h2>
+    <p>Login As:</p>
+    <a href="student_login.php">STUDENT</a>
+    <a href="admin_login.php" class="admin">ADMIN</a>
 </div>
 </body>
 </html>
